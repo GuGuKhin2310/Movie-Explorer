@@ -1,0 +1,35 @@
+<!-- movieExplorerMaster.html -->
+<template>
+    <div class="slds-fluid-container slds-var-p-around_medium page-background">
+        
+        <div class="slds-text-heading_large slds-var-m-bottom_medium app-header">
+            🎬 Movie Explorer
+        </div>
+
+        <lightning-tabset variant="scoped">
+            
+            <!-- Tab Pane Layer 1: Streaming Recommendations & Live API Enquiries Interface Layout -->
+            <lightning-tab label="Movie Explorer" icon-name="utility:search">
+                <div class="slds-var-m-top_medium">
+                    <c-movie-search
+                        onviewdetails={handleOpenDetailsModal}
+                        onaddfavorite={handleCreateFavoriteRecord}>
+                    </c-movie-search>
+                </div>
+            </lightning-tab>
+
+            <!-- Tab Pane Layer 2: Secure Database Collection Records Grid Subsystem -->
+            <lightning-tab label="Favorite Movies" icon-name="utility:favorite">
+                <div class="slds-var-m-top_medium">
+                    <!-- Added distinct class identifier for our public refresh wires methods calls -->
+                    <c-movie-favorites-list 
+                        class="favorites-list-cmp"
+                        onviewdetails={handleOpenDetailsModal}>
+                    </c-movie-favorites-list>
+                </div>
+            </lightning-tab>
+
+        </lightning-tabset>
+
+    </div>
+</template>

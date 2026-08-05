@@ -1,0 +1,138 @@
+<!-- movieFavoritesList.html -->
+<template>
+    <lightning-card title="Favorite Movies" icon-name="utility:favorite">
+        <div class="slds-var-m-around_medium">
+        
+            <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center slds-var-m-bottom_large">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
+                    <lightning-input
+                        type="search"
+                        label="Search Favorites"
+                        variant="label-hidden"
+                        placeholder="Search favorites by title..."
+                        value={searchKey}
+                        onchange={handleSearchChange}>
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 custom-combobox-alignment-wrapper">
+                    <!-- NEW: Sorting drop selection lists wire parameters -->
+                    <lightning-combobox
+                        name="favSort"
+                        variant="label-hidden"
+                        value={sortByField}
+                        placeholder="Sort Collections By..."
+                        options={favSortOptions}
+                        onchange={handleFavSortChange}>
+                    </lightning-combobox>
+                </div>
+            </div>
+
+
+            <div class="slds-is-relative">
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Updating list..." size="medium"></lightning-spinner>
+                </template>
+
+                <template if:true={favorites.length}>
+                    <div class="favorites-clean-grid">
+                        <template for:each={favorites} for:item="fav">
+                            <div key={fav.Id} class="fav-movie-card">
+                            <div class="movie-interactive-zone" data-id={fav.Movie_ID__c} onclick={handleViewDetailsClick}>  
+                                <div class="fav-poster-box">
+                                    <img 
+                                        src={fav.Poster_URL__c} 
+                                        alt={fav.Movie_Title__c} 
+                                        data-id={fav.Id}
+                                        onerror={handleFavImageError}
+                                    />
+                                </div>
+
+                                <div class="fav-metadata-box slds-var-m-vertical_small">
+                                    <h3 class="fav-movie-title slds-truncate" title={fav.Movie_Title__c}>
+                                        {fav.Movie_Title__c}
+                                    </h3>
+                                    <p class="fav-movie-subtext">
+                                        {fav.Release_Year__c} • <span class="capitalize-style">{fav.Movie_Type__c}</span>
+                                    </p>
+                                </div>
+                                </div>    
+                                    <div class="fav-interactive-controls-footer">
+                                        <div class="star-rating-control">
+                                            <template for:each={fav.stars} for:item="star">
+                                                <span 
+                                                    key={star.value} 
+                                                    class={star.className}
+                                                    data-id={fav.Id}
+                                                    data-value={star.value}
+                                                    onclick={handleStarClick}>
+                                                    ★
+                                                </span>
+                                            </template>
+                                        </div>
+
+                                    <!-- NEW: Dedicated User Notes Display Box Row with Edit Toggle Link -->
+                                    <div class="user-notes-row slds-var-m-top_x-small">
+                                        <p class="user-notes-text slds-truncate" title={fav.Notes__c}>
+                                            <template if:true={fav.Notes__c}><em>Notes: {fav.Notes__c}</em></template>
+                                            <template if:false={fav.Notes__c}><em>No notes added yet.</em></template>
+                                        </p>
+                                        <button 
+                                            class="notes-action-link-btn" 
+                                            data-id={fav.Id} 
+                                            onclick={handleManageNotesClick}>
+                                            📝 Add/Edit Notes
+                                        </button>
+                                    </div>
+                                </div>
+
+               
+                                <div class="fav-button-stack">
+                                    
+                                    <lightning-button 
+                                        label="Remove" 
+                                        variant="destructive" 
+                                        size="small"
+                                        data-id={fav.Id}
+                                        onclick={handleRemoveFavorite}
+                                        class="fav-btn-stretch">
+                                    </lightning-button>
+                                </div>
+
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:false={favorites.length}>
+                    <div class="slds-text-align_center slds-var-p-around_large slds-text-color_weak">
+                        No favorite movies yet.
+                    </div>
+                </template>
+            </div>
+
+            
+        <div class="slds-grid slds-grid_align-center slds-grid_vertical-align-center slds-var-m-vertical_xx-large slds-var-p-top_large slds-border_top">
+            <lightning-button 
+                label="<< Previous" 
+                onclick={handlePrevious} 
+                disabled={isPreviousDisabled} 
+                variant="neutral" 
+                class="slds-var-m-horizontal_small">
+            </lightning-button>
+            
+            <span class="slds-text-body_regular slds-text-color_weak slds-var-m-horizontal_small" style="font-weight: 500;">
+                Page {pageNumber} of {totalPages}
+            </span>
+            
+            <lightning-button 
+                label="Next >>" 
+                onclick={handleNext} 
+                disabled={isNextDisabled} 
+                variant="neutral" 
+                class="slds-var-m-horizontal_small">
+            </lightning-button>
+        </div>
+
+        </div>
+    </lightning-card>
+</template>

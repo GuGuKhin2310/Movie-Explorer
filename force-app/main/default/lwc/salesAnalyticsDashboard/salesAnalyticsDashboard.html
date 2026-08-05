@@ -1,0 +1,152 @@
+<template>
+    <lightning-card title="Opportunity Sales Analytics Dashboard" icon-name="standard:dashboard">
+        <div class="slds-var-p-around_medium">
+            
+            <!-- Filter Bar -->
+            <div class="slds-grid slds-gutters slds-var-m-bottom_large">
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning-combobox
+                        name="stageFilter"
+                        label="Stage"
+                        value={selectedStage}
+                        options={stageOptions}
+                        onchange={handleStageChange}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning-input
+                        type="search"
+                        label="Owner"
+                        placeholder="Filter by Owner Name..."
+                        value={selectedOwner}
+                        onchange={handleOwnerChange}>
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning-combobox
+                        name="yearFilter"
+                        label="Year"
+                        value={selectedYear}
+                        options={yearOptions}
+                        onchange={handleYearChange}>
+                    </lightning-combobox>
+                </div>
+            </div>
+
+            <hr />
+
+            <!-- KPI Cards -->
+            <div class="slds-grid slds-gutters slds-var-m-bottom_large">
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="kpi-card">
+                        <div class="kpi-title">Total Pipeline</div>
+                        <div class="kpi-value">{formattedTotalPipeline}</div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="kpi-card">
+                        <div class="kpi-title">Won Amount</div>
+                        <div class="kpi-value">{formattedWonAmount}</div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="kpi-card">
+                        <div class="kpi-title">Opportunities</div>
+                        <div class="kpi-value">{totalOps}</div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="kpi-card">
+                        <div class="kpi-title">Avg Deal</div>
+                        <div class="kpi-value">{formattedAvgAmount}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="slds-grid slds-wrap slds-gutters slds-var-m-bottom_large">
+                <!-- Bar Chart: Pipeline by Stage -->
+                <div class="slds-col slds-size_1-of-2 slds-var-m-bottom_medium">
+                    <div class="chart-card">
+                        <h2 class="chart-title">Pipeline by Stage</h2>
+                        <div class="stage-bar-chart d3-chart-container" lwc:dom="manual"></div>
+                    </div>
+                </div>
+
+                <!-- Pie Chart: Lead Source -->
+                <div class="slds-col slds-size_1-of-2 slds-var-m-bottom_medium">
+                    <div class="chart-card">
+                        <h2 class="chart-title">Opportunity Distribution by Lead Source</h2>
+                        <div class="lead-pie-chart d3-chart-container" lwc:dom="manual"></div>
+                    </div>
+                </div>
+
+                <!-- Line Chart: Monthly Closed Won Revenue -->
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="chart-card">
+                        <h2 class="chart-title">Monthly Closed Won Revenue</h2>
+                        <div class="revenue-line-chart d3-chart-container" lwc:dom="manual"></div>
+                    </div>
+                </div>
+
+                <!-- Horizontal Bar Chart: Top 10 Owners -->
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="chart-card">
+                        <h2 class="chart-title">Top 10 Opportunity Owners</h2>
+                        <div class="owner-bar-chart d3-chart-container" lwc:dom="manual"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Opportunity Data Table with Pagination -->
+            <div class="slds-var-m-top_large">
+                <div class="slds-grid slds-grid_align-spread slds-var-m-bottom_small">
+                    <h2 class="table-title">Opportunity Details</h2>
+                    <template if:true={selectedStage}>
+                        <lightning-button 
+                            label="Clear Stage Drill-Down Filter" 
+                            variant="label-hidden" 
+                            icon-name="utility:close"
+                            onclick={clearStageFilter}>
+                        </lightning-button>
+                    </template>
+                </div>
+
+                <lightning-datatable
+                    key-field="Id"
+                    data={displayedOpportunityData}
+                    columns={columns}
+                    hide-checkbox-column="false"
+                    sorted-by={sortBy}
+                    sorted-direction={sortDirection}
+                    onsort={handleSort}>
+                </lightning-datatable>
+
+                <!-- Pagination Controls -->
+                <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center slds-var-m-top_small">
+                    <div>
+                        <span class="slds-text-body_small">
+                            Page {pageNumber} of {totalPages} ({totalRecords} records)
+                        </span>
+                    </div>
+                    <div class="slds-button-group" role="group">
+                        <lightning-button 
+                            label="Previous" 
+                            icon-name="utility:chevronleft" 
+                            onclick={handlePreviousPage} 
+                            disabled={isFirstPage}>
+                        </lightning-button>
+                        <lightning-button 
+                            label="Next" 
+                            icon-name="utility:chevronright" 
+                            icon-position="right" 
+                            onclick={handleNextPage} 
+                            disabled={isLastPage}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </lightning-card>
+</template>

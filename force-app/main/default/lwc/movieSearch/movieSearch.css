@@ -1,0 +1,231 @@
+.search-button-alignment-wrapper {
+    display: flex;
+    align-items: flex-end;
+    height: 30px; 
+    margin-bottom: 10px;
+}
+
+.custom-pill-search-btn button {
+    height: 34px !important;
+    line-height: 34px !important;
+    padding: 0 24px !important;
+    border-radius: 20px !important; /* Retains your clean rounded pill layout choice */
+}
+
+.grid-section-heading-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #023047;
+}
+
+.movie-premium-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  margin-top: 8px;
+}
+
+@media (max-width: 1024px) { 
+  .movie-premium-grid { grid-template-columns: repeat(3, 1fr); } 
+}
+@media (max-width: 600px)  { 
+  .movie-premium-grid { grid-template-columns: repeat(1, 1fr); } 
+}
+
+.movie-premium-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E9F0;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  height: 360px;
+  box-sizing: border-box;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.movie-premium-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  border-color: #1589EE;
+}
+
+.movie-poster-click-zone:hover + .movie-text-click-zone .movie-title-string-header,
+.movie-text-click-zone:hover .movie-title-string-header {
+  color: #0070D2;
+  text-decoration: underline;
+}
+
+.movie-poster-click-zone {
+  cursor: pointer;
+  width: 100%;
+  display: block;
+}
+
+.poster-frame-container {
+  width: 100%;
+  height: 180px;
+  min-height: 180px;
+  max-height: 180px;
+  background-color: #F3F4F6;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.poster-frame-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.movie-text-click-zone {
+  cursor: pointer;
+  width: 100%;
+  display: block;
+ 
+}
+
+.metadata-card-panel {
+ 
+  height: 85px;
+  min-height: 85px;
+  max-height: 85px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.text-content-wrapper {
+  display: inline-block;
+  width: 100%;
+}
+
+
+.movie-title-string-header {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1B263B;
+  line-height: 1;
+  margin-bottom: 2px;
+  height: 38px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal; 
+  overflow: hidden;
+}
+
+.movie-subtext-metadata-line {
+  font-size: 0.82rem;
+  color: #6B7280;
+}
+
+.capitalize-style {
+  text-transform: capitalize;
+}
+
+
+.imdb-pill-badge-capsule {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+
+  margin-top: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.imdb-pill-tag {
+  background-color: #FFB703;
+  color: #023047;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 3px 6px;
+}
+
+.imdb-pill-value {
+  background-color: #F8F9FA;
+  color: #1F2937;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border: 1px solid #E5E9F0;
+  border-left: none;
+}
+
+
+.button-action-stack {
+  width: 100%;
+  /* FIXED: Forces the button wrapper to anchor cleanly to the absolute base of the card */
+  margin-top: auto;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 5; /* Forces the button layout to sit above overlapping background layers */
+}
+
+.action-btn-stretch {
+  display: block;
+  width: 100%;
+}
+
+.action-btn-stretch button {
+  width: 100% !important;
+  border-radius: 20px !important; /* Rounded pill style layout button configuration */
+}
+
+.slds-form-element .slds-form-element__control .slds-combobox_container {
+    /* Aligns the combobox baseline perfectly with your search input fields */
+    height: 35px !important;
+    display: flex;
+    align-items: center;
+}
+
+.slds-combobox__input {
+    height: 34px !important;
+    line-height: 32px !important;
+}
+
+/* movieSearch.css - Update or append these style parameters */
+
+.movie-title-string-header {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1B263B;
+  line-height: 1.25;
+  
+  /* FIXED: Set an explicit small margin at the base of your title header */
+  margin-bottom: 2px !important; 
+  
+  height: 34px; 
+  white-space: normal;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.movie-subtext-metadata-line {
+  font-size: 0.82rem;
+  color: #6B7280;
+  
+  margin-top: 2px !important;
+  margin-bottom: 2px !important; 
+  
+  line-height: 1.2;
+}
+
+.movie-genre-metadata-line {
+  font-size: 0.78rem;
+  color: #4B5563;
+  
+  
+  margin-top: 0px !important;
+  margin-bottom: 6px !important; 
+  
+  font-weight: 500;
+  line-height: 1.2;
+}

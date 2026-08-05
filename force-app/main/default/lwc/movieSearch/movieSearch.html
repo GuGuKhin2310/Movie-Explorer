@@ -1,0 +1,111 @@
+<!-- movieSearch.html -->
+<template>
+    <lightning-card title="Movie Explorer" icon-name="utility:search">
+        <div class="slds-var-m-around_medium">
+            
+            <!-- Controls Grid Row: Input Bar + Sorting Selection Stack Layout -->
+            <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end slds-var-m-bottom_large">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-var-m-bottom_small slds-medium-m-bottom_none">
+                    <lightning-input
+                        type="search"
+                        label="Movie Title"
+                        placeholder="Search Movie Title..."
+                        value={searchTerm}
+                        onchange={handleInputChange}>
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-var-m-bottom_small slds-medium-m-bottom_none">
+                    <!-- Sort selection parameters dropdown layout menu -->
+                    <lightning-combobox
+                        name="sortOrder"
+                        label="Sort By Year"
+                        value={sortValue}
+                        options={sortOptions}
+                        onchange={handleSortChange}>
+                    </lightning-combobox>
+                </div>
+                <!-- FIXED 1: Wrapped the button column inside a layout class container to secure perfect horizontal alignment -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 search-button-alignment-wrapper">
+                    <lightning-button
+                        label="Search"
+                        variant="brand"
+                        onclick={handleSearch}
+                        class="slds-stretch custom-pill-search-btn">
+                    </lightning-button>
+                </div>
+            </div>
+
+            <!-- Dynamic Header Row Banner -->
+            <div class="slds-border_bottom slds-var-p-bottom_x-small slds-var-m-bottom_medium">
+                <span class="grid-section-heading-title">{gridTitle}</span>
+            </div>
+
+            <template if:true={isLoading}>
+                <div class="slds-is-relative slds-var-p-around_large">
+                    <lightning-spinner alternative-text="Searching movies..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Refactored Premium Grid System Cards display row matrix -->
+            <template if:true={movies.length}>
+                <div class="movie-premium-grid">
+                    <template for:each={movies} for:item="movie">
+                        <div key={movie.imdbID} class="movie-premium-card">
+                            
+                            <!-- Click Zone 1: Poster Image Frame Only -->
+                            <div class="movie-poster-click-zone" data-id={movie.imdbID} onclick={handleDetailsClick}>
+                                <div class="poster-frame-container">
+                                    <img src={movie.Poster} alt={movie.Title} data-id={movie.imdbID} onerror={handleGridImageError}/>
+                                </div>
+                            </div>
+                            
+                            <!-- Click Zone 2: Text Elements Wrapped Tight to Block Background Bleeding -->
+                            <div class="movie-text-click-zone" data-id={movie.imdbID} onclick={handleDetailsClick}>
+                                <div class="metadata-card-panel slds-var-m-top_small">
+                                    <div class="text-content-wrapper">
+                                        <h4 class="movie-title-string-header slds-truncate" title={movie.Title}>{movie.Title}</h4>
+                                        
+                                        <p class="movie-subtext-metadata-line">{movie.Year} • <span class="capitalize-style">{movie.Type}</span></p>
+                                        <!-- <p class="movie-genre-metadata-line slds-truncate" title={movie.Genre}>
+                                            <template if:true={movie.Genre}>🎭 {movie.Genre}</template>
+                                            <template if:false={movie.Genre}>🎭 N/A</template>
+                                        </p> -->
+                                        <div class="imdb-pill-badge-capsule">
+                                            <span class="imdb-pill-tag">IMDb</span>
+                                            <span class="imdb-pill-value">
+                                                <template if:true={movie.imdbRating}>⭐ {movie.imdbRating}</template>
+                                                <template if:false={movie.imdbRating}>⭐ N/A</template>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- FIXED 2: Isolated completely away from card click wrappers and pushed to base of card -->
+                            <div class="button-action-stack">
+                                <lightning-button 
+                                    label="Add Favorite" 
+                                    icon-name="utility:favorite"
+                                    variant="neutral" 
+                                    size="small" 
+                                    data-id={movie.imdbID} 
+                                    onclick={handleFavoriteClick} 
+                                    class="action-btn-stretch">
+                                </lightning-button>
+                            </div>
+
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Spacious Pagination layout container elements controls row -->
+                <div class="slds-grid slds-grid_align-center slds-grid_vertical-align-center slds-var-m-vertical_xx-large slds-var-p-top_large slds-border_top">
+                    <lightning-button label="<< Previous" onclick={handlePrevious} disabled={isPreviousDisabled} variant="neutral" class="slds-var-m-horizontal_small"></lightning-button>
+                    <span class="slds-text-body_regular slds-text-color_weak slds-var-m-horizontal_small" style="font-weight: 500;">Page {pageNumber} of {totalPages}</span>
+                    <lightning-button label="Next >>" onclick={handleNext} disabled={isNextDisabled} variant="neutral" class="slds-var-m-horizontal_small"></lightning-button>
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

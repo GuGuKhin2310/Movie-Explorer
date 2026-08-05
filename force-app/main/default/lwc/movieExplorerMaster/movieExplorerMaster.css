@@ -1,0 +1,10 @@
+.page-background {
+    background-color: #F3F5F7;
+    min-height: 100vh;
+}
+.app-header {
+    font-weight: 700;
+    color: #1B263B;
+    border-bottom: 2px solid #D8DDE6;
+    padding-bottom: 8px;
+}

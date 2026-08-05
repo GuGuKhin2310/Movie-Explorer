@@ -1,0 +1,45 @@
+.kpi-card {
+    background-color: #f3f3f5;
+    border-radius: 6px;
+    padding: 16px;
+    text-align: center;
+    border: 1px solid #dddbda;
+}
+
+.kpi-title {
+    font-size: 0.85rem;
+    color: #514f4d;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.kpi-value {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #080707;
+    margin-top: 4px;
+}
+
+.chart-card {
+    background: #ffffff;
+    border: 1px solid #dddbda;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.chart-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #3e3e3c;
+}
+
+.d3-chart-container {
+    width: 100%;
+    min-height: 260px;
+}
+
+.table-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
